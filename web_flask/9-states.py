@@ -1,56 +1,44 @@
 #!/usr/bin/python3
-"""
-This is module 9-states.
+"""Starts a Flask web application"""
 
-In this module, we combine Flask with SQLAlchemy for the first time.
-Run this script from the AirBnB_v2 directory for imports.
-"""
 from models import storage
-from flask import Flask, render_template
+from models.state import State
+from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
 
-@app.route('/states/')
-@app.route('/states/<id_d>')
-def cities_by_states(id_d="all"):
-    """
-    Display a web page with a list of states or cities in a specific state.
+@app.route('/states', strict_slashes=False)
+def state_list():
+    """Comment"""
+    states = storage.all('State').values()
+    return render_template(
+        "9-states.html",
+        states=states,
+        condition="states_list")
 
-    Parameters:
-        id_d (str): State ID or 'all' to display all states.
 
-    Returns:
-        str: Rendered HTML template.
-    """
-    states = storage.all("State")
-    if id_d == "all":
-        return render_template("9-states.html", state="all",
-                               Query_name="States",
-                               states=states.values())
-    else:
-        flag = False
-        for k, v in states.items():
-            if k == id_d:
-                flag = True
-                break
-        if flag:
-            result = v.cities
-            return render_template("9-states.html", state="1",
-                                   Query_name="State: {}".format(v.name),
-                                   states=result)
-        else:
-            return render_template("9-states.html", state="",
-                                   Query_name="Not found!",
-                                   states=states)
+@app.route('/states/<id>', strict_slashes=False)
+def states_by_id(id):
+    """Comment"""
+    all_states = storage.all('State')
+    key = "State.{}".format(id)
+    try:
+        state = all_states[key]
+        return render_template(
+            '9-states.html',
+            state=state,
+            condition="state_id")
+    except:
+        return render_template('9-states.html', condition="not_found")
 
 
 @app.teardown_appcontext
-def close_session(exception):
-    """Remove the db session or save file."""
+def teardown(self):
+    """Removes the current SQLAlchemy Session"""
     storage.close()
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
-
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
