@@ -9,20 +9,24 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def hello_hbnb():
     """Flask hello world."""
     return "Hello HBNB!"
+
 
 @app.route('/hbnb')
 def hbnb():
     """Add a path to the URL."""
     return "HBNB"
 
+
 @app.route('/c/<text>')
 def c_text(text):
     """Make a simple variable rule."""
     return "C {}".format(text.replace("_", " "))
+
 
 @app.route('/python/')   # , defaults={'text': "is cool"})
 # redirection, strict_slashes prevents the 301 redirect when missing last /
