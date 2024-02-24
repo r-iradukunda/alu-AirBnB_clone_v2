@@ -1,4 +1,6 @@
-s is module 6-number_odd_or_even.
+#!/usr/bin/python3
+"""
+This is module 6-number_odd_or_even.
 
 It starts a minimal Flask application.
 Run it with python3 -m 6-number_odd_or_even or ./6-number_odd_or_even
