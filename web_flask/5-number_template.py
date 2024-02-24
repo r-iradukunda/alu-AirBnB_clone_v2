@@ -1,48 +1,51 @@
 #!/usr/bin/python3
-""" Script that starts a Flask web application. """
+"""
+This is module 5-number_template.
+
+It starts a minimal Flask application.
+Run it with python3 -m 5-number_template or ./5-number_template
+"""
 from flask import Flask, render_template
+
 app = Flask(__name__)
 
 
-@app.route('/', strict_slashes=False)
+@app.route('/')
 def hello_hbnb():
-        """ Function that displays "Hello HBNB!" """
-            return 'Hello HBNB!'
+    """Flask hello world."""
+    return "Hello HBNB!"
 
 
-        @app.route('/hbnb', strict_slashes=False)
-        def hbnb():
-                """ Function that displays "HBNB" """
-                    return 'HBNB'
+@app.route('/hbnb')
+def hbnb():
+    """Add a path to the URL."""
+    return "HBNB"
 
 
-                @app.route('/c/<text>', strict_slashes=False)
-                def c_is_fun(text):
-                        """ Function that displays "C" followed
-    by the value of the text variable """
-                            return 'C {}'.format(text.replace('_', ' '))
+@app.route('/c/<text>')
+def c_text(text):
+    """Make a simple variable rule."""
+    return "C {}".format(text.replace("_", " "))
 
 
-                        @app.route('/python', strict_slashes=False)
-                        @app.route('/python/<text>', strict_slashes=False)
-                        def python_is_cool(text='is cool'):
-                                """ Function that displays "Python" followed
-    by the value of the text variable """
-                                    return 'Python {}'.format(text.replace('_', ' '))
+@app.route('/python/', defaults={'text': "is cool"})
+@app.route('/python/<text>')
+def python_text(text):
+    """Give a rule a default value."""
+    return "Python {}".format(text.replace("_", " "))
 
 
-                                @app.route('/number/<int:n>', strict_slashes=False)
-                                def number(n):
-                                        """ Function that displays "n is a number"
-    only if n is an integer """
-                                            return '{} is a number'.format(n)
+@app.route('/number/<int:n>')
+def number_route(n):
+    """Make a rule only take a number."""
+    return "{:d} is a number".format(n)
 
 
-                                        @app.route('/number_template/<int:n>', strict_slashes=False)
-                                        def number_template(n):
-                                                """ Function that displays a HTML page only if n is an integer """
-                                                    return render_template('5-number.html', n=n)
+@app.route('/number_template/<int:number>')
+def number_template(number):
+    """Create an HTML page with a rule."""
+    return render_template('5-number.html', number=number)
 
-
-                                                if __name__ == '__main__':
-                                                        app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    # Values here are the default, mentioned as keepsake.
+    app.run(host="0.0.0.0", port="5000")
