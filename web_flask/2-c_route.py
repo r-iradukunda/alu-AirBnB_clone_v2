@@ -1,26 +1,29 @@
 #!/usr/bin/python3
-""" Script that starts a Flask web application. """
+"""
+This is module 2-c_route.
+
+It starts a minimal Flask application.
+Run it with python3 -m 2-c_route or ./2-c_route
+"""
 from flask import Flask
+
 app = Flask(__name__)
 
-
-@app.route('/', strict_slashes=False)
+@app.route('/')
 def hello_hbnb():
-        """ Function that displays "Hello HBNB!" """
-            return 'Hello HBNB!'
+    """Flask hello world."""
+    return "Hello HBNB!"
 
+@app.route('/hbnb')
+def hbnb():
+    """Add a path to the URL."""
+    return "HBNB"
 
-        @app.route('/hbnb', strict_slashes=False)
-        def hbnb():
-                """ Function that displays "HBNB" """
-                    return 'HBNB'
+@app.route('/c/<text>')
+def c_text(text):
+    """Make a simple variable rule."""
+    return "C {}".format(text.replace("_", " "))
 
-
-                @app.route('/c/<text>', strict_slashes=False)
-                def c_is_fun(text):
-                        """ Function that displays "C" followed
-    by the value of the text variable """
-                            return 'C {}'.format(text.replace('_', ' '))
-
-                        if __name__ == '__main__':
-                                app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    # Values here are the default, mentioned as keepsake.
+    app.run(host="0.0.0.0", port="5000")
